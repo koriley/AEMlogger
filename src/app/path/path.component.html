@@ -6,8 +6,8 @@
         <label *ngIf="selectedPath == undefined" class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02" >Select File</label>
         <label *ngIf="selectedPath" class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02" >{{selectedPath}}</label>
       </div>
-      <div style="display:inline-block; margin:5px"><input type="checkbox" name="siblings" (change)="sibling($event)" > Include Siblings</div>
-      <div style="display:inline-block; margin:5px"><input type="checkbox" name="save" (change)="savePath($event)"> Save Path</div>
+      <div style="display:inline-block; margin:5px"><input type="checkbox" name="siblings" (change)="sibling($event)" [checked]="siblings" > Include Siblings</div>
+      <div style="display:inline-block; margin:5px"><input type="checkbox" name="save" (change)="savePath($event)" [checked]="saveFilePath"> Save Path</div>
       <button class="monitorButton" (click)="startMonitoing('#wrapper')" mat-raised-button>Monitor</button>
     </div>
 

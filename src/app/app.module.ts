@@ -8,11 +8,13 @@ import {MatButtonModule} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { PathComponent } from './path/path.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MonitorComponent } from './monitoring/monitor/monitor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PathComponent
+    PathComponent,
+    MonitorComponent
   ],
   imports: [
     BrowserModule,

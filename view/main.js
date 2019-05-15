@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n  <div class=\"d-flex justify-content-center\">\n    <div class=\"container-fluid\">\n      <app-path></app-path>\n    </div>\n  </div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n  <div class=\"d-flex justify-content-center\">\n    <div class=\"container-fluid\">\n      <app-path></app-path>\n      <app-monitor></app-monitor>\n    </div>\n  </div>\n\n"
 
 /***/ }),
 
@@ -97,6 +97,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _path_path_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./path/path.component */ "./src/app/path/path.component.ts");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _monitoring_monitor_monitor_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./monitoring/monitor/monitor.component */ "./src/app/monitoring/monitor/monitor.component.ts");
+
 
 
 
@@ -114,7 +116,8 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
-                _path_path_component__WEBPACK_IMPORTED_MODULE_8__["PathComponent"]
+                _path_path_component__WEBPACK_IMPORTED_MODULE_8__["PathComponent"],
+                _monitoring_monitor_monitor_component__WEBPACK_IMPORTED_MODULE_10__["MonitorComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -135,6 +138,98 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/monitoring/monitor/monitor.component.html":
+/*!***********************************************************!*\
+  !*** ./src/app/monitoring/monitor/monitor.component.html ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div id=\"monitor\" class=\"monitor\" *ngIf=\"filePath != undefined\">\n  <ul>\n    <li *ngFor=\"let i of fileContents\">\n      {{i}}\n    </li>\n  </ul>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/monitoring/monitor/monitor.component.scss":
+/*!***********************************************************!*\
+  !*** ./src/app/monitoring/monitor/monitor.component.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21vbml0b3JpbmcvbW9uaXRvci9tb25pdG9yLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/monitoring/monitor/monitor.component.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/monitoring/monitor/monitor.component.ts ***!
+  \*********************************************************/
+/*! exports provided: MonitorComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MonitorComponent", function() { return MonitorComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_io_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/io.service */ "./src/app/services/io.service.ts");
+/* harmony import */ var _services_global_vars_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/global-vars.service */ "./src/app/services/global-vars.service.ts");
+
+
+
+
+var MonitorComponent = /** @class */ (function () {
+    function MonitorComponent(IO, global) {
+        this.IO = IO;
+        this.global = global;
+    }
+    MonitorComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.global.setWatchFileListener().subscribe(function (data) {
+            console.log(data);
+            _this.filePath = data;
+            _this.global.setWatchDirListener().subscribe(function (dir) {
+                _this.fileDir = dir;
+                console.log(dir);
+                if (_this.fileDir) {
+                    console.log("is true");
+                }
+                else {
+                    _this.readFile();
+                }
+            });
+        });
+    };
+    MonitorComponent.prototype.readFile = function () {
+        var _this = this;
+        this.IO.readAFile(this.filePath).then(function (data) {
+            _this.fileContents = data.toString().split(/\r?\n/);
+            _this.IO.streamRead(_this.filePath);
+            _this.IO.getStreamListener().subscribe(function (data) {
+                console.log(data);
+                if (data.event == "change") {
+                    _this.IO.readAFile(data.file).then(function (data) {
+                        _this.fileContents = data.toString().split(/\r?\n/);
+                    });
+                }
+            });
+        });
+    };
+    MonitorComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-monitor',
+            template: __webpack_require__(/*! ./monitor.component.html */ "./src/app/monitoring/monitor/monitor.component.html"),
+            styles: [__webpack_require__(/*! ./monitor.component.scss */ "./src/app/monitoring/monitor/monitor.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_io_service__WEBPACK_IMPORTED_MODULE_2__["IoService"], _services_global_vars_service__WEBPACK_IMPORTED_MODULE_3__["GlobalVarsService"]])
+    ], MonitorComponent);
+    return MonitorComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/path/path.component.html":
 /*!******************************************!*\
   !*** ./src/app/path/path.component.html ***!
@@ -142,7 +237,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\" id='wrapper'>\n  <div class=\"input-group mb-3 floatedInput\">\n    <div class=\"innerBox\">\n      <div class=\"custom-file\">\n        <input type=\"file\" class=\"custom-file-input\" id=\"inputGroupFile02\" (change)=\"chooseFile($event)\">\n        <label *ngIf=\"selectedPath == undefined\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >Select File</label>\n        <label *ngIf=\"selectedPath\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >{{selectedPath}}</label>\n      </div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"siblings\" (change)=\"sibling($event)\" > Include Siblings</div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"save\" (change)=\"savePath($event)\"> Save Path</div>\n      <button class=\"monitorButton\" (click)=\"startMonitoing('#wrapper')\" mat-raised-button>Monitor</button>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"wrapper\" id='wrapper'>\n  <div class=\"input-group mb-3 floatedInput\">\n    <div class=\"innerBox\">\n      <div class=\"custom-file\">\n        <input type=\"file\" class=\"custom-file-input\" id=\"inputGroupFile02\" (change)=\"chooseFile($event)\">\n        <label *ngIf=\"selectedPath == undefined\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >Select File</label>\n        <label *ngIf=\"selectedPath\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >{{selectedPath}}</label>\n      </div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"siblings\" (change)=\"sibling($event)\" [checked]=\"siblings\" > Include Siblings</div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"save\" (change)=\"savePath($event)\" [checked]=\"saveFilePath\"> Save Path</div>\n      <button class=\"monitorButton\" (click)=\"startMonitoing('#wrapper')\" mat-raised-button>Monitor</button>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -193,7 +288,9 @@ var PathComponent = /** @class */ (function () {
                 console.log(data);
                 _this.IO.readAFile(_this.saveDB).then(function (data) {
                     var saveJson = JSON.parse(data.toString());
-                    console.log(saveJson.data.saves);
+                    _this.siblings = saveJson.data.dir;
+                    _this.fileName = saveJson.data.fileName;
+                    _this.saveFilePath = saveJson.data.saved;
                     if (saveJson.data.saves != "") {
                         _this.selectedPath = saveJson.data.saves;
                     }
@@ -237,15 +334,15 @@ var PathComponent = /** @class */ (function () {
     PathComponent.prototype.setSavePath = function () {
         if (this.saveFilePath == true && this.selectedPath != this.defaultLabelText) {
             if (this.thisOS == "win32") {
-                var winData = this.winFix("{\"data\": {\"saves\": \"" + this.selectedPath + "\"}}");
+                var winData = this.winFix("{\"data\": {\"saves\": \"" + this.selectedPath + "\", \"dir\":" + this.siblings + ", \"fileName\":\"" + this.fileName + "\", \"saved\":" + this.saveFilePath + "}");
                 this.IO.writeFile(this.saveDB, winData);
             }
             else {
-                this.IO.writeFile(this.saveDB, "{\"data\": {\"saves\": \"" + this.selectedPath + "\"}}");
+                this.IO.writeFile(this.saveDB, "{\"data\": {\"saves\": \"" + this.selectedPath + "\", \"dir\":" + this.siblings + ", \"fileName\":\"" + this.fileName + "\", \"saved\":" + this.saveFilePath + "}}");
             }
         }
         else if (this.saveFilePath == false || this.selectedPath == this.defaultLabelText) {
-            this.IO.writeFile(this.saveDB, '{"data": {"saves": ""}}');
+            this.IO.writeFile(this.saveDB, "{\"data\": {\"saves\": \"\", \"dir\":" + this.siblings + ", \"fileName\":\"\", \"saved\":" + this.saveFilePath + "}}");
         }
     };
     PathComponent.prototype.setOrgPath = function () {
@@ -255,7 +352,8 @@ var PathComponent = /** @class */ (function () {
         var newText = jsonData.toString().replace("\\", "\\\\");
     };
     PathComponent.prototype.startMonitoing = function (target) {
-        this.watcher.watchFile = this.selectedPath;
+        this.watcher.getWatchFilePath(this.selectedPath);
+        this.watcher.getWatchFileDir(this.siblings);
         var elm = document.querySelector(target);
         elm.style.display = "none";
         // console.log(elm)
@@ -287,11 +385,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GlobalVarsService", function() { return GlobalVarsService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
 
 
 var GlobalVarsService = /** @class */ (function () {
     function GlobalVarsService() {
+        this.watchFileObserv = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+        this.watchDirObserv = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
     }
+    GlobalVarsService.prototype.setWatchFileListener = function () {
+        return this.watchFileObserv.asObservable();
+    };
+    GlobalVarsService.prototype.setWatchDirListener = function () {
+        return this.watchDirObserv.asObservable();
+    };
+    GlobalVarsService.prototype.getWatchFilePath = function (path) {
+        this.watchFile = path;
+        return this.watchFileObserv.next(this.watchFile);
+    };
+    GlobalVarsService.prototype.getWatchFileDir = function (dir) {
+        this.watchDir = dir;
+        return this.watchDirObserv.next(this.watchDir);
+    };
+    GlobalVarsService.prototype.setHidden = function (target) {
+        var elm = document.querySelector(target);
+        elm.style.display = "none";
+    };
+    GlobalVarsService.prototype.setShow = function (target) {
+        var elm = document.querySelector(target);
+        elm.style.display = "block";
+    };
     GlobalVarsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
@@ -317,13 +441,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IoService", function() { return IoService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
 
 
 // let fs = require('fs');
 var fs = window['fs'];
 var IoService = /** @class */ (function () {
     function IoService() {
+        this.streamUpdate = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
     }
+    IoService.prototype.getStreamListener = function () {
+        return this.streamUpdate.asObservable();
+    };
     //This is IO code written for node and adapted to angular.
     //to -- adapt to ts standards as needed --
     IoService.prototype.readAFile = function (filepath) {
@@ -337,6 +467,13 @@ var IoService = /** @class */ (function () {
                     resolve(data);
                 }
             });
+        });
+    };
+    IoService.prototype.streamRead = function (files) {
+        var _this = this;
+        fs.watch(files, function (event, file) {
+            var change = { "event": event, "file": file };
+            return _this.streamUpdate.next(change);
         });
     };
     IoService.prototype.writeFile = function (filepath, data) {

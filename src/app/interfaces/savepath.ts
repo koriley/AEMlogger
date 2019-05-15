@@ -1,3 +1,3 @@
 export interface Savepath {
-    data: {saves: string};
+    data: { saves: string, dir: boolean, fileName: string, saved: boolean };
 }
