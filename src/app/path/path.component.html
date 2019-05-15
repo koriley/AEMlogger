@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" id='wrapper'>
   <div class="input-group mb-3 floatedInput">
     <div class="innerBox">
       <div class="custom-file">
@@ -8,7 +8,7 @@
       </div>
       <div style="display:inline-block; margin:5px"><input type="checkbox" name="siblings" (change)="sibling($event)" > Include Siblings</div>
       <div style="display:inline-block; margin:5px"><input type="checkbox" name="save" (change)="savePath($event)"> Save Path</div>
-      
+      <button class="monitorButton" (click)="startMonitoing('#wrapper')" mat-raised-button>Monitor</button>
     </div>
 
   </div>

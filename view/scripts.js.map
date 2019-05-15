@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///includes.js"],"names":[],"mappings":"AAAA;AACA,0B","file":"scripts.js","sourcesContent":["window.fs = require('fs');\nwindow.os = require('os');"],"sourceRoot":""}

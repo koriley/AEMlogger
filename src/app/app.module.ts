@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { PathComponent } from './path/path.component';
@@ -18,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatButtonModule
     
   ],
   providers: [],

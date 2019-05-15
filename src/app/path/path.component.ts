@@ -1,8 +1,8 @@
 import { Savepath } from './../interfaces/savepath';
 import { Component, OnInit } from '@angular/core';
 import { IoService } from '../services/io.service';
-import { reject } from 'q';
-import { resolve } from 'path';
+import { GlobalVarsService } from '../services/global-vars.service';
+
 let os = window['os'];
 
 
@@ -13,7 +13,7 @@ let os = window['os'];
 })
 export class PathComponent implements OnInit {
 
-  constructor(private IO:IoService) { }
+  constructor(private IO:IoService, private watcher:GlobalVarsService) { }
   path = "filepath";
   defaultLabelText = "Select File"
   saveDB = './save.json';
@@ -41,7 +41,7 @@ export class PathComponent implements OnInit {
     });
   }
 
-  chooseFile(data){
+  chooseFile(data):void{
     console.log(data);
     this.selectedPath = data.target.files[0].path;
     this.fileName = data.target.files[0].name;
@@ -49,57 +49,68 @@ export class PathComponent implements OnInit {
       this.setCleanPath(this.selectedPath);
     }
   }
-  sibling(data){
+  sibling(data):void{
     this.siblings = data.target.checked;
     console.log(this.siblings)
     if(this.siblings){
             if(this.selectedPath != this.defaultLabelText){
         this.setCleanPath(this.selectedPath);
+        this.setSavePath();
       }
     }else{
       if(this.selectedPath != this.defaultLabelText){
         this.setOrgPath();
+        this.setSavePath();
       }
     }
   }
   
-  savePath(data){
+  savePath(data):void{
     this.saveFilePath = data.target.checked;
-   if(this.saveFilePath == true && this.selectedPath != this.defaultLabelText){
-     if(this.thisOS == "win32"){
-       this.winFix(`{"data": {"saves": "${this.selectedPath}"}}`).then((data)=>{
-        this.IO.writeFile(this.saveDB, data);
-       });
-      
-     }else{
-      this.IO.writeFile(this.saveDB, `{"data": {"saves": "${this.selectedPath}"}}`)
-     }
-    
-   }else if(this.saveFilePath == false || this.selectedPath == this.defaultLabelText){
-    this.IO.writeFile(this.saveDB, '{"data": {"saves": ""}}')
-   }
+    this.setSavePath();
   }
 
-  setCleanPath(path){
+  setCleanPath(path):void{
     var newPath = path.toString().replace(this.fileName, "");
     this.selectedPath = newPath;
+    this.setSavePath();
     
+  }
+
+  setSavePath():void{
+    if(this.saveFilePath == true && this.selectedPath != this.defaultLabelText){
+      if(this.thisOS == "win32"){
+          let winData = this.winFix(`{"data": {"saves": "${this.selectedPath}"}}`);
+          this.IO.writeFile(this.saveDB, winData);
+       
+      }else{
+       this.IO.writeFile(this.saveDB, `{"data": {"saves": "${this.selectedPath}"}}`)
+      }
+     
+    }else if(this.saveFilePath == false || this.selectedPath == this.defaultLabelText){
+     this.IO.writeFile(this.saveDB, '{"data": {"saves": ""}}')
+    }
   }
 
   setOrgPath(){
     this.selectedPath = this.selectedPath+this.fileName
   }
 
- winFix(jsonData: string){
-   return new Promise((res, rej)=>{
-     try{
+ winFix(jsonData: string):void{
+  
+     
      let newText = jsonData.toString().replace("\\" ,"\\\\");
-      resolve(newText);
-     }catch(error){
-       reject(error);
-     };
-   });
+      
    
  }
 
+
+ startMonitoing(target):void{
+   this.watcher.watchFile = this.selectedPath;
+   let elm = document.querySelector(target);
+    elm.style.display = "none"
+  // console.log(elm)
+ }
+
 }
+
