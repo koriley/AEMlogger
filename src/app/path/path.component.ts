@@ -1,5 +1,9 @@
+import { Savepath } from './../interfaces/savepath';
 import { Component, OnInit } from '@angular/core';
-import { BakeryService } from '../services/bakery.service';
+import { IoService } from '../services/io.service';
+import { reject } from 'q';
+import { resolve } from 'path';
+let os = window['os'];
 
 
 @Component({
@@ -9,17 +13,33 @@ import { BakeryService } from '../services/bakery.service';
 })
 export class PathComponent implements OnInit {
 
-  constructor(private baker: BakeryService ) { }
+  constructor(private IO:IoService) { }
   path = "filepath";
   defaultLabelText = "Select File"
-  getCookie = this.baker.getCookie(this.path);
+  saveDB = './save.json';
   selectedPath = this.defaultLabelText;
   siblings: boolean;
   cleanPath: string;
   saveFilePath: boolean;
   fileName: string;
+  thisOS = os.platform();
   
-  ngOnInit() {}
+  ngOnInit() {
+    
+    this.IO.checkFileExist(this.saveDB).then((data: boolean)=>{
+     
+      if(data == true){
+        console.log(data)
+        this.IO.readAFile(this.saveDB).then((data: Savepath)=>{
+          let saveJson = JSON.parse(data.toString());
+          console.log(saveJson.data.saves)
+          if(saveJson.data.saves != ""){
+            this.selectedPath = saveJson.data.saves
+          }
+        })
+      }
+    });
+  }
 
   chooseFile(data){
     console.log(data);
@@ -33,22 +53,31 @@ export class PathComponent implements OnInit {
     this.siblings = data.target.checked;
     console.log(this.siblings)
     if(this.siblings){
-      
-      if(this.selectedPath != this.defaultLabelText){
+            if(this.selectedPath != this.defaultLabelText){
         this.setCleanPath(this.selectedPath);
       }
     }else{
       if(this.selectedPath != this.defaultLabelText){
         this.setOrgPath();
       }
-      
     }
-    
   }
   
   savePath(data){
     this.saveFilePath = data.target.checked;
-   console.log(this.saveFilePath)
+   if(this.saveFilePath == true && this.selectedPath != this.defaultLabelText){
+     if(this.thisOS == "win32"){
+       this.winFix(`{"data": {"saves": "${this.selectedPath}"}}`).then((data)=>{
+        this.IO.writeFile(this.saveDB, data);
+       });
+      
+     }else{
+      this.IO.writeFile(this.saveDB, `{"data": {"saves": "${this.selectedPath}"}}`)
+     }
+    
+   }else if(this.saveFilePath == false || this.selectedPath == this.defaultLabelText){
+    this.IO.writeFile(this.saveDB, '{"data": {"saves": ""}}')
+   }
   }
 
   setCleanPath(path){
@@ -61,6 +90,16 @@ export class PathComponent implements OnInit {
     this.selectedPath = this.selectedPath+this.fileName
   }
 
- 
+ winFix(jsonData: string){
+   return new Promise((res, rej)=>{
+     try{
+     let newText = jsonData.toString().replace("\\" ,"\\\\");
+      resolve(newText);
+     }catch(error){
+       reject(error);
+     };
+   });
+   
+ }
 
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-let fs = require('fs');
+// let fs = require('fs');
+let fs = window['fs'];
 
 @Injectable({
   providedIn: 'root'
@@ -65,9 +66,9 @@ export class IoService {
         try {
             fs.access(path, fs.F_OK, (err) => {
                 if (err) {
-                    resolve("false");
+                    resolve(false+ err);
                 }
-                resolve("true");
+                resolve(true);
             });
         } catch (error) {
             reject("error");
