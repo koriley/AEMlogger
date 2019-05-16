@@ -1,1 +1,1 @@
-{"version":3,"sources":["webpack:///includes.js"],"names":[],"mappings":"AAAA;AACA,0B","file":"scripts.js","sourcesContent":["window.fs = require('fs');\nwindow.os = require('os');"],"sourceRoot":""}
+{"version":3,"sources":["webpack:///includes.js"],"names":[],"mappings":"AAAA;AACA;AACA,uC","file":"scripts.js","sourcesContent":["window.fs = require('fs');\r\nwindow.os = require('os');\r\nwindow.trs = require('tailing-stream');"],"sourceRoot":""}

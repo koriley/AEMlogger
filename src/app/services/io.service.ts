@@ -4,6 +4,7 @@ import { Filechange } from '../interfaces/filechange';
 
 // let fs = require('fs');
 let fs = window['fs'];
+let trs = window['trs']
 
 @Injectable({
     providedIn: 'root'
@@ -33,10 +34,15 @@ export class IoService {
     }
 
     streamRead(files) {
-        fs.watch(files, (event, file) => {
-            let change: Filechange = { "event": event, "file": file };
-            return this.streamUpdate.next(change);
+        // fs.watch(files, (event, file) => {
+        //     let change: Filechange = { "event": event, "file": file };
+        //     return this.streamUpdate.next(change);
 
+        // })
+        let read = trs.createReadStream(files, {timeout: 0});
+        read.on('data', (data)=>{
+            let change = data.toString();
+            return this.streamUpdate.next(change);
         })
     }
 

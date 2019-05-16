@@ -38,13 +38,14 @@ export class MonitorComponent implements OnInit {
 
       this.fileContents = data.toString().split(/\r?\n/);
       this.IO.streamRead(this.filePath);
-      this.IO.getStreamListener().subscribe((data: Filechange)=>{
+       this.IO.getStreamListener().subscribe((data)=>{
         console.log(data)
-        if(data.event == "change"){
-         this.IO.readAFile(data.file).then((data)=>{
-          this.fileContents = data.toString().split(/\r?\n/);
-         })
-        }
+        this.fileContents = data.toString().split(/\r?\n/);
+        // if(data.event == "change"){
+        //  this.IO.readAFile(data.file).then((data)=>{
+        //   this.fileContents = data.toString().split(/\r?\n/);
+        //  })
+        // }
        
       })
     });

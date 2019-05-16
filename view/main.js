@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n  <div class=\"d-flex justify-content-center\">\n    <div class=\"container-fluid\">\n      <app-path></app-path>\n      <app-monitor></app-monitor>\n    </div>\n  </div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n\r\n  <div class=\"d-flex justify-content-center\">\r\n    <div class=\"container-fluid\">\r\n      <app-path></app-path>\r\n      <app-monitor></app-monitor>\r\n    </div>\r\n  </div>\r\n\r\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<!--The content below is only a placeholder and can be replace
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".master {\n  width: 50%;\n  margin: auto;\n  vertical-align: middle; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rbm9yaWxleS9Eb2N1bWVudHMvbmcvQUVNbG9nZ2VyL3NyYy9hcHAvYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBUztFQUNULFlBQVc7RUFDWCxzQkFBcUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYXN0ZXJ7XG4gICAgd2lkdGg6NTAlO1xuICAgIG1hcmdpbjphdXRvO1xuICAgIHZlcnRpY2FsLWFsaWduOm1pZGRsZTtcbn0iXX0= */"
+module.exports = ".master {\n  width: 50%;\n  margin: auto;\n  vertical-align: middle; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvQzpcXFVzZXJzXFxLT1JcXERvY3VtZW50c1xccHJvamVjdHNcXEFFTWxvZ2dlci9zcmNcXGFwcFxcYXBwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBUztFQUNULFlBQVc7RUFDWCxzQkFBcUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYXN0ZXJ7XHJcbiAgICB3aWR0aDo1MCU7XHJcbiAgICBtYXJnaW46YXV0bztcclxuICAgIHZlcnRpY2FsLWFsaWduOm1pZGRsZTtcclxufSJdfQ== */"
 
 /***/ }),
 
@@ -145,7 +145,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div id=\"monitor\" class=\"monitor\" *ngIf=\"filePath != undefined\">\n  <ul>\n    <li *ngFor=\"let i of fileContents\">\n      {{i}}\n    </li>\n  </ul>\n</div>\n"
+module.exports = "\r\n<div id=\"monitor\" class=\"monitor\" *ngIf=\"filePath != undefined\">\r\n  <ul>\r\n    <li *ngFor=\"let i of fileContents\">\r\n      {{i}}\r\n    </li>\r\n  </ul>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -207,11 +207,12 @@ var MonitorComponent = /** @class */ (function () {
             _this.IO.streamRead(_this.filePath);
             _this.IO.getStreamListener().subscribe(function (data) {
                 console.log(data);
-                if (data.event == "change") {
-                    _this.IO.readAFile(data.file).then(function (data) {
-                        _this.fileContents = data.toString().split(/\r?\n/);
-                    });
-                }
+                _this.fileContents = data.toString().split(/\r?\n/);
+                // if(data.event == "change"){
+                //  this.IO.readAFile(data.file).then((data)=>{
+                //   this.fileContents = data.toString().split(/\r?\n/);
+                //  })
+                // }
             });
         });
     };
@@ -237,7 +238,7 @@ var MonitorComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\" id='wrapper'>\n  <div class=\"input-group mb-3 floatedInput\">\n    <div class=\"innerBox\">\n      <div class=\"custom-file\">\n        <input type=\"file\" class=\"custom-file-input\" id=\"inputGroupFile02\" (change)=\"chooseFile($event)\">\n        <label *ngIf=\"selectedPath == undefined\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >Select File</label>\n        <label *ngIf=\"selectedPath\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >{{selectedPath}}</label>\n      </div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"siblings\" (change)=\"sibling($event)\" [checked]=\"siblings\" > Include Siblings</div>\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"save\" (change)=\"savePath($event)\" [checked]=\"saveFilePath\"> Save Path</div>\n      <button class=\"monitorButton\" (click)=\"startMonitoing('#wrapper')\" mat-raised-button>Monitor</button>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"wrapper\" id='wrapper'>\r\n  <div class=\"input-group mb-3 floatedInput\">\r\n    <div class=\"innerBox\">\r\n      <div class=\"custom-file\">\r\n        <input type=\"file\" class=\"custom-file-input\" id=\"inputGroupFile02\" (change)=\"chooseFile($event)\">\r\n        <label *ngIf=\"selectedPath == undefined\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >Select File</label>\r\n        <label *ngIf=\"selectedPath\" class=\"custom-file-label\" for=\"inputGroupFile02\" aria-describedby=\"inputGroupFileAddon02\" >{{selectedPath}}</label>\r\n      </div>\r\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"siblings\" (change)=\"sibling($event)\" [checked]=\"siblings\" > Include Siblings</div>\r\n      <div style=\"display:inline-block; margin:5px\"><input type=\"checkbox\" name=\"save\" (change)=\"savePath($event)\" [checked]=\"saveFilePath\"> Save Path</div>\r\n      <button class=\"monitorButton\" (click)=\"startMonitoing('#wrapper')\" mat-raised-button>Monitor</button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -248,7 +249,7 @@ module.exports = "<div class=\"wrapper\" id='wrapper'>\n  <div class=\"input-gro
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".wrapper {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.5); }\n  .wrapper .floatedInput {\n    align-items: center;\n    display: flex;\n    justify-content: center;\n    width: 75%;\n    height: 100%;\n    margin: auto; }\n  .wrapper .floatedInput .innerBox {\n      width: 100%;\n      padding: 15% 10px;\n      background-color: white;\n      position: relative; }\n  .wrapper .floatedInput .innerBox .monitorButton {\n        position: absolute;\n        right: 5px;\n        bottom: 5px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rbm9yaWxleS9Eb2N1bWVudHMvbmcvQUVNbG9nZ2VyL3NyYy9hcHAvcGF0aC9wYXRoLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksa0JBQWtCO0VBQ2xCLE1BQUs7RUFBRSxTQUFRO0VBQUUsT0FBTTtFQUFFLFFBQU87RUFDaEMsb0NBQXNDLEVBQUE7RUFIMUM7SUFLUSxtQkFBbUI7SUFDbkIsYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixVQUFTO0lBRVQsWUFBVztJQUNYLFlBQVcsRUFBQTtFQVhuQjtNQWFZLFdBQVU7TUFDVixpQkFBZ0I7TUFDaEIsdUJBQXNCO01BQ3RCLGtCQUFrQixFQUFBO0VBaEI5QjtRQWtCZ0Isa0JBQWtCO1FBQ2xCLFVBQVM7UUFDVCxXQUFVLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYXRoL3BhdGguY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIud3JhcHBlcntcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOjA7IGJvdHRvbTowOyBsZWZ0OjA7IHJpZ2h0OjA7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgkY29sb3I6ICMwMDAwMDAsICRhbHBoYTogLjUpO1xuICAgIC5mbG9hdGVkSW5wdXR7XG4gICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgICB3aWR0aDo3NSU7XG4gICAgICAgIFxuICAgICAgICBoZWlnaHQ6MTAwJTtcbiAgICAgICAgbWFyZ2luOmF1dG87XG4gICAgICAgIC5pbm5lckJveHtcbiAgICAgICAgICAgIHdpZHRoOjEwMCU7XG4gICAgICAgICAgICBwYWRkaW5nOjE1JSAxMHB4O1xuICAgICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjp3aGl0ZTtcbiAgICAgICAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICAgICAgICAgIC5tb25pdG9yQnV0dG9ue1xuICAgICAgICAgICAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICAgICAgICAgICAgICByaWdodDo1cHg7XG4gICAgICAgICAgICAgICAgYm90dG9tOjVweDtcbiAgICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgIH1cbn0iXX0= */"
+module.exports = ".wrapper {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.5); }\n  .wrapper .floatedInput {\n    align-items: center;\n    display: flex;\n    justify-content: center;\n    width: 75%;\n    height: 100%;\n    margin: auto; }\n  .wrapper .floatedInput .innerBox {\n      width: 100%;\n      padding: 15% 10px;\n      background-color: white;\n      position: relative; }\n  .wrapper .floatedInput .innerBox .monitorButton {\n        position: absolute;\n        right: 5px;\n        bottom: 5px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGF0aC9DOlxcVXNlcnNcXEtPUlxcRG9jdW1lbnRzXFxwcm9qZWN0c1xcQUVNbG9nZ2VyL3NyY1xcYXBwXFxwYXRoXFxwYXRoLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksa0JBQWtCO0VBQ2xCLE1BQUs7RUFBRSxTQUFRO0VBQUUsT0FBTTtFQUFFLFFBQU87RUFDaEMsb0NBQXNDLEVBQUE7RUFIMUM7SUFLUSxtQkFBbUI7SUFDbkIsYUFBYTtJQUNiLHVCQUF1QjtJQUN2QixVQUFTO0lBRVQsWUFBVztJQUNYLFlBQVcsRUFBQTtFQVhuQjtNQWFZLFdBQVU7TUFDVixpQkFBZ0I7TUFDaEIsdUJBQXNCO01BQ3RCLGtCQUFrQixFQUFBO0VBaEI5QjtRQWtCZ0Isa0JBQWtCO1FBQ2xCLFVBQVM7UUFDVCxXQUFVLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYXRoL3BhdGguY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIud3JhcHBlcntcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIHRvcDowOyBib3R0b206MDsgbGVmdDowOyByaWdodDowO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgkY29sb3I6ICMwMDAwMDAsICRhbHBoYTogLjUpO1xyXG4gICAgLmZsb2F0ZWRJbnB1dHtcclxuICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICAgICAgd2lkdGg6NzUlO1xyXG4gICAgICAgIFxyXG4gICAgICAgIGhlaWdodDoxMDAlO1xyXG4gICAgICAgIG1hcmdpbjphdXRvO1xyXG4gICAgICAgIC5pbm5lckJveHtcclxuICAgICAgICAgICAgd2lkdGg6MTAwJTtcclxuICAgICAgICAgICAgcGFkZGluZzoxNSUgMTBweDtcclxuICAgICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjp3aGl0ZTtcclxuICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG4gICAgICAgICAgICAubW9uaXRvckJ1dHRvbntcclxuICAgICAgICAgICAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgICAgICAgICAgICAgIHJpZ2h0OjVweDtcclxuICAgICAgICAgICAgICAgIGJvdHRvbTo1cHg7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -447,6 +448,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // let fs = require('fs');
 var fs = window['fs'];
+var trs = window['trs'];
 var IoService = /** @class */ (function () {
     function IoService() {
         this.streamUpdate = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
@@ -470,9 +472,14 @@ var IoService = /** @class */ (function () {
         });
     };
     IoService.prototype.streamRead = function (files) {
+        // fs.watch(files, (event, file) => {
+        //     let change: Filechange = { "event": event, "file": file };
+        //     return this.streamUpdate.next(change);
         var _this = this;
-        fs.watch(files, function (event, file) {
-            var change = { "event": event, "file": file };
+        // })
+        var read = trs.createReadStream(files, { timeout: 0 });
+        read.on('data', function (data) {
+            var change = data.toString();
             return _this.streamUpdate.next(change);
         });
     };
@@ -669,7 +676,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/knoriley/Documents/ng/AEMlogger/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\KOR\Documents\projects\AEMlogger\src\main.ts */"./src/main.ts");
 
 
 /***/ })
